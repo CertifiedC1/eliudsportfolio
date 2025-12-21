@@ -117,7 +117,25 @@ export default {
         },
         "pulse-subtle": {
           "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.02)" },
+          "50%": { transform: "scale(1.03)" },
+        },
+        "ripple-pulse": {
+          "0%": { transform: "scale(1)", opacity: "0.3" },
+          "50%": { transform: "scale(1.1)", opacity: "0.5" },
+          "100%": { transform: "scale(1)", opacity: "0.3" },
+        },
+        "blur-pulse": {
+          "0%, 100%": { filter: "blur(20px)", opacity: "0.3" },
+          "50%": { filter: "blur(30px)", opacity: "0.6" },
+        },
+        "mirror-distort": {
+          "0%, 100%": { transform: "scale(1) rotate(0deg)" },
+          "25%": { transform: "scale(1.01) rotate(0.5deg)" },
+          "75%": { transform: "scale(1.01) rotate(-0.5deg)" },
+        },
+        "inner-ripple": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.4" },
+          "50%": { transform: "scale(1.05)", opacity: "0.7" },
         },
       },
       animation: {
@@ -133,6 +151,10 @@ export default {
         "spin-slow": "spin-slow 8s linear infinite",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
         "particle-float": "particle-float 3s ease-in-out infinite",
+        "ripple-pulse": "ripple-pulse 2s ease-in-out infinite",
+        "blur-pulse": "blur-pulse 2s ease-in-out infinite",
+        "mirror-distort": "mirror-distort 3s ease-in-out infinite",
+        "inner-ripple": "inner-ripple 2s ease-in-out infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
