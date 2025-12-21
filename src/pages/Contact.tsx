@@ -15,7 +15,7 @@ export default function Contact() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const contactInfo = {
-    email: "ndungu2021@gmail.com",
+    email: "ndungueliud2021@gmail.com",
     phone1: "0111653881",
     phone2: "0734007511",
     github: "https://github.com/CertifiedC1",

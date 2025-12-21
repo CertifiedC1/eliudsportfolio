@@ -34,12 +34,18 @@ export function Navbar() {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - Interactive EP */}
           <Link
             to="/"
-            className="font-display text-xl tracking-wider text-primary hover:text-glow transition-all duration-300"
+            className={cn(
+              "font-display text-xl tracking-wider text-primary",
+              "hover:text-glow hover:scale-110 hover:rotate-3",
+              "transition-all duration-300 ease-out",
+              "relative group"
+            )}
           >
-            EP
+            <span className="relative z-10">EP</span>
+            <span className="absolute inset-0 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </Link>
 
           {/* Desktop Navigation */}
