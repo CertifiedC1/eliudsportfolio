@@ -61,6 +61,16 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        "particle-float": {
+          "0%, 100%": {
+            opacity: "0.4",
+            transform: "translate(-50%, -50%) translateY(0px) scale(1)",
+          },
+          "50%": {
+            opacity: "1",
+            transform: "translate(-50%, -50%) translateY(-10px) scale(1.2)",
+          },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -122,6 +132,7 @@ export default {
         "letter-reveal": "letter-reveal 0.5s ease-out forwards",
         "spin-slow": "spin-slow 8s linear infinite",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
+        "particle-float": "particle-float 3s ease-in-out infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
