@@ -83,8 +83,8 @@ export default function About() {
 
             {/* Technical Skills */}
             <div className="mb-12 animate-fade-in" style={{ animationDelay: "0.4s" }}>
-              <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8 text-center">
-                <AnimatedText text="Technical Skills" delay={600} letterDelay={0.05} />
+              <h2 className="font-display text-2xl md:text-3xl text-amber-400 text-glow mb-8 text-center">
+                <AnimatedText text="Technical Skills" delay={600} letterDelay={0.08} />
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
                 {technicalSkills.map((skill, index) => (
@@ -108,8 +108,8 @@ export default function About() {
 
             {/* Soft Skills */}
             <div className="animate-fade-in" style={{ animationDelay: "0.6s" }}>
-              <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8 text-center">
-                <AnimatedText text="Soft Skills" delay={900} letterDelay={0.05} />
+              <h2 className="font-display text-2xl md:text-3xl text-amber-400 text-glow mb-8 text-center">
+                <AnimatedText text="Soft Skills" delay={900} letterDelay={0.08} />
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {softSkills.map((skill) => (

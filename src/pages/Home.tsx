@@ -30,8 +30,8 @@ export default function Home() {
 
   const handleMirrorClick = () => {
     setIsZooming(true);
-    // Smooth fade transition lasting 4-6 seconds
-    setTimeout(() => navigate("/about"), 5000);
+    // Smooth fade transition lasting 3 seconds
+    setTimeout(() => navigate("/about"), 3000);
   };
 
   return (
@@ -45,10 +45,10 @@ export default function Home() {
         <div
           className={cn(
             "relative cursor-pointer",
-            "w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px]",
+            "w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] md:w-[320px] md:h-[320px] lg:w-[380px] lg:h-[380px]",
             "flex items-center justify-center",
             mirrorVisible ? "opacity-100 scale-100" : "opacity-0 scale-90",
-            isZooming ? "transition-all duration-[5000ms] ease-in-out scale-[5] opacity-0 blur-sm" : "transition-all duration-1000",
+            isZooming ? "transition-all duration-[3000ms] ease-in-out scale-[8] opacity-0 blur-md" : "transition-all duration-1000",
             isHovering && !isZooming && "animate-pulse-subtle"
           )}
           onClick={handleMirrorClick}

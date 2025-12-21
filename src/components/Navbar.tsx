@@ -38,14 +38,17 @@ export function Navbar() {
           <Link
             to="/"
             className={cn(
-              "font-display text-xl tracking-wider text-primary",
-              "hover:text-glow hover:scale-110 hover:rotate-3",
-              "transition-all duration-300 ease-out",
-              "relative group"
+              "font-display text-2xl tracking-wider text-primary font-bold",
+              "hover:text-glow hover:scale-125 hover:rotate-6",
+              "transition-all duration-500 ease-out",
+              "relative group cursor-pointer"
             )}
           >
-            <span className="relative z-10">EP</span>
-            <span className="absolute inset-0 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative z-10 bg-gradient-to-r from-primary via-amber-400 to-primary bg-clip-text group-hover:text-transparent transition-all duration-500">
+              EP
+            </span>
+            <span className="absolute inset-[-8px] bg-primary/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-all duration-500" />
+            <span className="absolute inset-[-4px] border-2 border-primary/40 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-spin-slow transition-all duration-500" />
           </Link>
 
           {/* Desktop Navigation */}
