@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { AnimatedText } from "@/components/AnimatedText";
 import mirrorPortal from "@/assets/mirror-portal.png";
-import silhouette from "@/assets/silhouette.png";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -31,7 +30,8 @@ export default function Home() {
 
   const handleMirrorClick = () => {
     setIsZooming(true);
-    setTimeout(() => navigate("/about"), 800);
+    // Smooth fade transition lasting 4-6 seconds
+    setTimeout(() => navigate("/about"), 5000);
   };
 
   return (
@@ -44,11 +44,12 @@ export default function Home() {
         {/* Mirror Portal Container - Fixed containment */}
         <div
           className={cn(
-            "relative cursor-pointer transition-all duration-1000",
+            "relative cursor-pointer",
             "w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px]",
             "flex items-center justify-center",
             mirrorVisible ? "opacity-100 scale-100" : "opacity-0 scale-90",
-            isZooming && "scale-[3] opacity-0"
+            isZooming ? "transition-all duration-[5000ms] ease-in-out scale-[5] opacity-0 blur-sm" : "transition-all duration-1000",
+            isHovering && !isZooming && "animate-pulse-subtle"
           )}
           onClick={handleMirrorClick}
           onMouseEnter={() => setIsHovering(true)}
@@ -57,9 +58,10 @@ export default function Home() {
           {/* Mirror glow effect - contained within parent */}
           <div
             className={cn(
-              "absolute inset-0 rounded-full blur-2xl transition-all duration-500",
+              "absolute inset-[10%] rounded-full blur-2xl transition-all duration-500",
               "bg-gradient-radial from-primary/40 via-primary/20 to-transparent",
-              introComplete && "animate-glow-pulse"
+              introComplete && "animate-glow-pulse",
+              isHovering && "from-primary/60 via-primary/30"
             )}
           />
 
@@ -75,16 +77,22 @@ export default function Home() {
               )}
             />
 
-            {/* Silhouette overlay - positioned relative to mirror */}
-            <img
-              src={silhouette}
-              alt="Contemplative silhouette"
+            {/* Rotating ring effect on hover */}
+            <div
               className={cn(
-                "absolute bottom-[5%] left-1/2 -translate-x-1/2",
-                "w-[50%] h-auto object-contain",
-                "transition-all duration-1000",
-                silhouetteVisible ? "opacity-70" : "opacity-0",
-                introComplete && "animate-float"
+                "absolute inset-[5%] rounded-full border-2 border-primary/30",
+                "transition-all duration-700",
+                isHovering && "animate-spin-slow border-primary/60"
+              )}
+            />
+            
+            {/* Inner glow ring */}
+            <div
+              className={cn(
+                "absolute inset-[15%] rounded-full",
+                "bg-gradient-radial from-transparent via-primary/10 to-transparent",
+                "transition-all duration-500",
+                isHovering && "via-primary/20"
               )}
             />
 
@@ -124,7 +132,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator - removed Explore text */}
         <div
           className={cn(
             "absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2",
@@ -132,9 +140,6 @@ export default function Home() {
             introComplete ? "opacity-100" : "opacity-0"
           )}
         >
-          <span className="text-muted-foreground text-xs font-body tracking-widest uppercase">
-            Explore
-          </span>
           <div className="w-px h-12 bg-gradient-to-b from-primary to-transparent animate-pulse" />
         </div>
       </div>

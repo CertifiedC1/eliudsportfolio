@@ -6,42 +6,32 @@ import { ExternalLink, Github } from "lucide-react";
 
 const projects = [
   {
-    title: "School Management System",
-    description: "Web-based platform for managing student records, payments, and authentication with integrated mobile money support.",
-    tech: ["React", "Supabase", "M-Pesa API", "Tailwind CSS"],
+    title: "EntryHive 🐝 – Digital Ticketing Platform",
+    description: "A modern web-based ticketing platform that enables event organizers to sell tickets, validate entry using secure QR codes, and manage events through a centralized dashboard.",
+    tech: ["React", "Supabase", "QR Code Validation", "Tailwind CSS"],
     role: "Full-stack Developer",
-    outcome: "Improved user flow and automated payments for streamlined school administration.",
-    github: "#",
-    live: "#",
+    outcome: "Delivered a seamless ticket purchase and validation flow, reduced ticket fraud through single-use QR codes, and improved event entry efficiency.",
+    github: "https://github.com/CertifiedC1",
+    live: "https://ticket-hub-chi.vercel.app",
     featured: true,
   },
   {
-    title: "E-Commerce Dashboard",
-    description: "A comprehensive admin dashboard for managing products, orders, and customer analytics with real-time updates.",
-    tech: ["Next.js", "Firebase", "Chart.js", "TypeScript"],
-    role: "Frontend Developer",
-    outcome: "Enhanced data visualization and improved order management efficiency by 40%.",
-    github: "#",
-    live: "#",
-    featured: false,
-  },
-  {
-    title: "Task Management App",
-    description: "Collaborative task management application with real-time synchronization and team workspace features.",
-    tech: ["Vue.js", "Supabase", "Vuetify"],
+    title: "Chama M-Pesa App – Group Savings & Payments System",
+    description: "A web-based financial management system for chamas (investment groups) that allows members to contribute, track savings, and automate payments using M-Pesa integration.",
+    tech: ["React", "Supabase", "M-Pesa API", "Tailwind CSS"],
     role: "Full-stack Developer",
-    outcome: "Enabled teams to track projects efficiently with drag-and-drop Kanban boards.",
-    github: "#",
-    live: "#",
+    outcome: "Automated group contributions, improved financial transparency, and reduced manual record-keeping for community savings groups.",
+    github: "https://github.com/CertifiedC1",
+    live: "https://chama-mpesa-app.vercel.app/",
     featured: false,
   },
   {
-    title: "Portfolio Generator",
-    description: "A tool that generates beautiful portfolio websites from simple JSON configuration files.",
+    title: "Portfolio Builder – Automated Portfolio Generator",
+    description: "A developer-focused tool that generates modern, responsive portfolio websites from simple configuration inputs, allowing users to showcase projects quickly and professionally.",
     tech: ["React", "Node.js", "Tailwind CSS"],
     role: "Creator & Developer",
-    outcome: "Helped 50+ developers create professional portfolios quickly.",
-    github: "#",
+    outcome: "Enabled developers to launch professional portfolios faster, reducing setup time and improving online visibility.",
+    github: "https://github.com/CertifiedC1",
     live: "#",
     featured: false,
   },
@@ -131,6 +121,8 @@ export default function Projects() {
                       <div className="flex gap-4">
                         <a
                           href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className={cn(
                             "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
                             "bg-secondary hover:bg-secondary/80 text-foreground/80 hover:text-foreground",
@@ -140,17 +132,21 @@ export default function Projects() {
                           <Github size={16} />
                           GitHub
                         </a>
-                        <a
-                          href={project.live}
-                          className={cn(
-                            "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
-                            "bg-primary hover:bg-primary/90 text-primary-foreground",
-                            "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
-                          )}
-                        >
-                          <ExternalLink size={16} />
-                          Live Demo
-                        </a>
+                        {project.live !== "#" && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
+                              "bg-primary hover:bg-primary/90 text-primary-foreground",
+                              "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+                            )}
+                          >
+                            <ExternalLink size={16} />
+                            Live Demo
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
