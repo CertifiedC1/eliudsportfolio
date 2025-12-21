@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/PageTransition";
-import { MapPin, Mail, Send, Github, Linkedin, ArrowRight } from "lucide-react";
+import { AnimatedText } from "@/components/AnimatedText";
+import { VideoBackground } from "@/components/VideoBackground";
+import { MapPin, Mail, Send, Github, Linkedin, ArrowRight, Phone, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Contact() {
@@ -10,14 +12,21 @@ export default function Contact() {
     email: "",
     message: "",
   });
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  const contactInfo = {
+    email: "ndungu2021@gmail.com",
+    phone1: "0111653881",
+    phone2: "0734007511",
+    github: "https://github.com/CertifiedC1",
+    linkedin: "https://www.linkedin.com/in/eliud-ndungu-3075a0339/",
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Visual only - show toast
-    toast.success("Message sent! I'll get back to you soon.", {
-      description: "Thank you for reaching out.",
+    toast.success("Message ready!", {
+      description: "Copy my email above to send your message directly.",
     });
-    setFormData({ name: "", email: "", message: "" });
   };
 
   const handleChange = (
@@ -29,26 +38,31 @@ export default function Contact() {
     }));
   };
 
+  const copyToClipboard = (text: string, field: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedField(field);
+    toast.success("Copied to clipboard!", {
+      description: text,
+    });
+    setTimeout(() => setCopiedField(null), 2000);
+  };
+
   return (
     <PageTransition>
-      <div className="relative min-h-screen overflow-hidden bg-background grain">
-        {/* Gradient background */}
-        <div className="fixed inset-0">
-          <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-background to-background" />
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-primary/10 to-transparent blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-accent/5 to-transparent blur-3xl" />
-        </div>
+      <div className="relative min-h-screen overflow-hidden">
+        {/* Video background */}
+        <VideoBackground src="/videos/contact-bg.mp4" />
 
         {/* Content */}
         <div className="relative z-10 pt-24 pb-16 px-4">
           <div className="container mx-auto max-w-5xl">
-            {/* Header */}
+            {/* Header with animated text */}
             <div className="text-center mb-16 animate-fade-in">
               <h1 className="font-display text-4xl md:text-6xl text-primary text-glow mb-4">
-                Get In Touch
+                <AnimatedText text="Get In Touch" delay={300} letterDelay={0.08} />
               </h1>
               <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
-                Let's collaborate and build something amazing together
+                <AnimatedText text="Let's collaborate and build something amazing together" delay={600} letterDelay={0.02} />
               </p>
               <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-6" />
             </div>
@@ -58,13 +72,13 @@ export default function Contact() {
               <div className="space-y-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
                 <div className="glass rounded-2xl p-8">
                   <h2 className="font-display text-2xl text-foreground mb-6">
-                    Contact Information
+                    <AnimatedText text="Contact Information" delay={400} letterDelay={0.04} />
                   </h2>
 
                   <div className="space-y-6">
                     {/* Name */}
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <div className="flex items-center gap-4 group">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                         <span className="font-display text-lg text-primary">EN</span>
                       </div>
                       <div>
@@ -74,8 +88,8 @@ export default function Contact() {
                     </div>
 
                     {/* Location */}
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <div className="flex items-center gap-4 group">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                         <MapPin className="w-5 h-5 text-primary" />
                       </div>
                       <div>
@@ -83,6 +97,63 @@ export default function Contact() {
                         <p className="font-body text-foreground">Kenya</p>
                       </div>
                     </div>
+
+                    {/* Email - Copyable */}
+                    <button
+                      onClick={() => copyToClipboard(contactInfo.email, "email")}
+                      className="w-full flex items-center gap-4 group hover:bg-primary/5 rounded-xl p-2 -m-2 transition-colors"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Mail className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <p className="text-sm text-muted-foreground font-body">Email</p>
+                        <p className="font-body text-foreground">{contactInfo.email}</p>
+                      </div>
+                      {copiedField === "email" ? (
+                        <Check className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <Copy className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                      )}
+                    </button>
+
+                    {/* Phone 1 - Copyable */}
+                    <button
+                      onClick={() => copyToClipboard(contactInfo.phone1, "phone1")}
+                      className="w-full flex items-center gap-4 group hover:bg-primary/5 rounded-xl p-2 -m-2 transition-colors"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Phone className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <p className="text-sm text-muted-foreground font-body">Phone</p>
+                        <p className="font-body text-foreground">{contactInfo.phone1}</p>
+                      </div>
+                      {copiedField === "phone1" ? (
+                        <Check className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <Copy className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                      )}
+                    </button>
+
+                    {/* Phone 2 - Copyable */}
+                    <button
+                      onClick={() => copyToClipboard(contactInfo.phone2, "phone2")}
+                      className="w-full flex items-center gap-4 group hover:bg-primary/5 rounded-xl p-2 -m-2 transition-colors"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <Phone className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <p className="text-sm text-muted-foreground font-body">Alternate</p>
+                        <p className="font-body text-foreground">{contactInfo.phone2}</p>
+                      </div>
+                      {copiedField === "phone2" ? (
+                        <Check className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <Copy className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                      )}
+                    </button>
                   </div>
 
                   {/* Social Links */}
@@ -92,41 +163,45 @@ export default function Contact() {
                     </p>
                     <div className="flex gap-4">
                       <a
-                        href="#"
+                        href={contactInfo.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={cn(
                           "w-12 h-12 rounded-xl bg-secondary flex items-center justify-center",
-                          "hover:bg-primary/20 hover:scale-110 transition-all duration-300",
+                          "hover:bg-primary/20 hover:scale-110 hover:-translate-y-1 transition-all duration-300",
                           "group"
                         )}
                       >
-                        <Github className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
+                        <Github className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                       </a>
                       <a
-                        href="#"
+                        href={contactInfo.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={cn(
                           "w-12 h-12 rounded-xl bg-secondary flex items-center justify-center",
-                          "hover:bg-primary/20 hover:scale-110 transition-all duration-300",
+                          "hover:bg-primary/20 hover:scale-110 hover:-translate-y-1 transition-all duration-300",
                           "group"
                         )}
                       >
-                        <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
+                        <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                       </a>
                       <a
-                        href="#"
+                        href={`mailto:${contactInfo.email}`}
                         className={cn(
                           "w-12 h-12 rounded-xl bg-secondary flex items-center justify-center",
-                          "hover:bg-primary/20 hover:scale-110 transition-all duration-300",
+                          "hover:bg-primary/20 hover:scale-110 hover:-translate-y-1 transition-all duration-300",
                           "group"
                         )}
                       >
-                        <Mail className="w-5 h-5 text-muted-foreground group-hover:text-primary" />
+                        <Mail className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
                       </a>
                     </div>
                   </div>
                 </div>
 
                 {/* CTA */}
-                <div className="glass rounded-2xl p-8 bg-gradient-to-br from-primary/10 to-transparent">
+                <div className="glass rounded-2xl p-8 bg-gradient-to-br from-primary/10 to-transparent hover:from-primary/15 transition-all duration-300 group cursor-default">
                   <h3 className="font-display text-xl text-foreground mb-3">
                     Open to Opportunities
                   </h3>
@@ -136,7 +211,7 @@ export default function Contact() {
                   </p>
                   <div className="flex items-center gap-2 text-primary font-body text-sm">
                     <span>Let's work together</span>
-                    <ArrowRight className="w-4 h-4 animate-pulse" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -147,15 +222,15 @@ export default function Contact() {
                 style={{ animationDelay: "0.4s" }}
               >
                 <h2 className="font-display text-2xl text-foreground mb-6">
-                  Send a Message
+                  <AnimatedText text="Send a Message" delay={500} letterDelay={0.04} />
                 </h2>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Name Input */}
-                  <div>
+                  <div className="group">
                     <label
                       htmlFor="name"
-                      className="block font-body text-sm text-muted-foreground mb-2"
+                      className="block font-body text-sm text-muted-foreground mb-2 group-focus-within:text-primary transition-colors"
                     >
                       Your Name
                     </label>
@@ -170,17 +245,17 @@ export default function Contact() {
                         "w-full px-4 py-3 rounded-xl bg-secondary/50 border border-border/50",
                         "font-body text-foreground placeholder:text-muted-foreground/50",
                         "focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
-                        "transition-all duration-300"
+                        "transition-all duration-300 hover:border-primary/30"
                       )}
                       placeholder="John Doe"
                     />
                   </div>
 
                   {/* Email Input */}
-                  <div>
+                  <div className="group">
                     <label
                       htmlFor="email"
-                      className="block font-body text-sm text-muted-foreground mb-2"
+                      className="block font-body text-sm text-muted-foreground mb-2 group-focus-within:text-primary transition-colors"
                     >
                       Email Address
                     </label>
@@ -195,17 +270,17 @@ export default function Contact() {
                         "w-full px-4 py-3 rounded-xl bg-secondary/50 border border-border/50",
                         "font-body text-foreground placeholder:text-muted-foreground/50",
                         "focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
-                        "transition-all duration-300"
+                        "transition-all duration-300 hover:border-primary/30"
                       )}
                       placeholder="john@example.com"
                     />
                   </div>
 
                   {/* Message Input */}
-                  <div>
+                  <div className="group">
                     <label
                       htmlFor="message"
-                      className="block font-body text-sm text-muted-foreground mb-2"
+                      className="block font-body text-sm text-muted-foreground mb-2 group-focus-within:text-primary transition-colors"
                     >
                       Your Message
                     </label>
@@ -220,7 +295,7 @@ export default function Contact() {
                         "w-full px-4 py-3 rounded-xl bg-secondary/50 border border-border/50",
                         "font-body text-foreground placeholder:text-muted-foreground/50",
                         "focus:outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20",
-                        "transition-all duration-300 resize-none"
+                        "transition-all duration-300 resize-none hover:border-primary/30"
                       )}
                       placeholder="Tell me about your project..."
                     />
@@ -233,13 +308,17 @@ export default function Contact() {
                       "w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl",
                       "bg-primary hover:bg-primary/90 text-primary-foreground",
                       "font-body font-medium tracking-wide",
-                      "transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/20",
+                      "transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/20",
                       "group"
                     )}
                   >
                     <span>Send Message</span>
-                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                   </button>
+
+                  <p className="text-center text-xs text-muted-foreground font-body mt-4">
+                    Click send, then copy my email above to reach me directly!
+                  </p>
                 </form>
               </div>
             </div>

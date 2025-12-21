@@ -12,6 +12,7 @@ export default function Home() {
   const [silhouetteVisible, setSilhouetteVisible] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     // Cinematic intro sequence
@@ -40,59 +41,66 @@ export default function Home() {
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-        {/* Mirror Portal Container */}
+        {/* Mirror Portal Container - Fixed containment */}
         <div
           className={cn(
             "relative cursor-pointer transition-all duration-1000",
+            "w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px]",
+            "flex items-center justify-center",
             mirrorVisible ? "opacity-100 scale-100" : "opacity-0 scale-90",
-            isZooming && "animate-zoom-portal"
+            isZooming && "scale-[3] opacity-0"
           )}
           onClick={handleMirrorClick}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
         >
-          {/* Mirror glow effect */}
+          {/* Mirror glow effect - contained within parent */}
           <div
             className={cn(
-              "absolute inset-0 rounded-full blur-3xl transition-all duration-500",
-              "bg-gradient-radial from-primary/30 via-primary/10 to-transparent",
+              "absolute inset-0 rounded-full blur-2xl transition-all duration-500",
+              "bg-gradient-radial from-primary/40 via-primary/20 to-transparent",
               introComplete && "animate-glow-pulse"
             )}
-            style={{ transform: "scale(1.3)" }}
           />
 
-          {/* Mirror image */}
-          <div className="relative group">
+          {/* Mirror image - contained */}
+          <div className="relative w-full h-full flex items-center justify-center">
             <img
               src={mirrorPortal}
               alt="Mystical portal mirror"
               className={cn(
-                "w-[300px] md:w-[450px] lg:w-[550px] h-auto rounded-full",
-                "mirror-distort transition-all duration-500",
-                "group-hover:brightness-110 group-hover:contrast-105"
+                "w-[85%] h-[85%] object-contain rounded-full",
+                "transition-all duration-500",
+                isHovering && "brightness-110 contrast-105 scale-105"
               )}
             />
 
-            {/* Silhouette overlay */}
+            {/* Silhouette overlay - positioned relative to mirror */}
             <img
               src={silhouette}
               alt="Contemplative silhouette"
               className={cn(
-                "absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[10%]",
-                "w-[180px] md:w-[250px] lg:w-[300px] h-auto",
+                "absolute bottom-[5%] left-1/2 -translate-x-1/2",
+                "w-[50%] h-auto object-contain",
                 "transition-all duration-1000",
-                silhouetteVisible ? "opacity-80" : "opacity-0",
+                silhouetteVisible ? "opacity-70" : "opacity-0",
                 introComplete && "animate-float"
               )}
             />
 
-            {/* Click hint */}
+            {/* Click hint - JUMP IN! */}
             <div
               className={cn(
-                "absolute bottom-[-60px] left-1/2 -translate-x-1/2",
-                "text-muted-foreground text-sm font-body tracking-wider",
-                "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                "absolute bottom-[-50px] left-1/2 -translate-x-1/2",
+                "px-6 py-2 rounded-full",
+                "bg-primary/20 backdrop-blur-sm border border-primary/30",
+                "text-primary text-sm md:text-base font-display tracking-widest uppercase",
+                "opacity-0 transition-all duration-300",
+                isHovering && "opacity-100 translate-y-0",
+                !isHovering && "translate-y-2"
               )}
             >
-              Click to enter
+              Jump In!
             </div>
           </div>
         </div>
@@ -100,14 +108,14 @@ export default function Home() {
         {/* Text content */}
         <div
           className={cn(
-            "text-center mt-12 transition-all duration-1000",
+            "text-center mt-16 transition-all duration-1000",
             textVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl tracking-wider text-glow text-primary mb-4">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl tracking-wider text-glow text-primary mb-4">
             <AnimatedText text="Eliud's Portfolio" delay={2600} letterDelay={0.08} />
           </h1>
-          <p className="font-body text-lg md:text-xl text-muted-foreground tracking-wide">
+          <p className="font-body text-base sm:text-lg md:text-xl text-muted-foreground tracking-wide">
             <AnimatedText
               text="Web Developer • Software Engineer • IT Specialist"
               delay={3500}
