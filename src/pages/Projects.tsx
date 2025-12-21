@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/PageTransition";
-import projectsBackground from "@/assets/projects-background.png";
+import { AnimatedText } from "@/components/AnimatedText";
+import { VideoBackground } from "@/components/VideoBackground";
 import { ExternalLink, Github } from "lucide-react";
 
 const projects = [
@@ -50,23 +51,19 @@ export default function Projects() {
   return (
     <PageTransition>
       <div className="relative min-h-screen overflow-hidden">
-        {/* Background with portfolio text */}
-        <div
-          className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${projectsBackground})` }}
-        />
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" />
+        {/* Video background */}
+        <VideoBackground src="/videos/projects-bg.mp4" />
 
         {/* Content */}
         <div className="relative z-10 pt-24 pb-16 px-4">
           <div className="container mx-auto max-w-6xl">
-            {/* Header */}
+            {/* Header with animated text */}
             <div className="text-center mb-16 animate-fade-in">
               <h1 className="font-display text-4xl md:text-6xl text-primary text-glow mb-4">
-                Projects
+                <AnimatedText text="Projects" delay={300} letterDelay={0.08} />
               </h1>
               <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
-                A showcase of my work and creative solutions
+                <AnimatedText text="A showcase of my work and creative solutions" delay={600} letterDelay={0.02} />
               </p>
               <div className="w-24 h-1 bg-gradient-to-r from-transparent via-primary to-transparent mx-auto mt-6" />
             </div>
@@ -123,7 +120,7 @@ export default function Projects() {
                         {project.tech.map((tech) => (
                           <span
                             key={tech}
-                            className="px-3 py-1 text-xs font-body bg-secondary/80 text-foreground/80 rounded-lg border border-border/50"
+                            className="px-3 py-1 text-xs font-body bg-secondary/80 text-foreground/80 rounded-lg border border-border/50 hover:bg-primary/20 hover:text-primary transition-colors"
                           >
                             {tech}
                           </span>
@@ -137,7 +134,7 @@ export default function Projects() {
                           className={cn(
                             "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
                             "bg-secondary hover:bg-secondary/80 text-foreground/80 hover:text-foreground",
-                            "transition-all duration-300 hover:scale-105"
+                            "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
                           )}
                         >
                           <Github size={16} />
@@ -148,7 +145,7 @@ export default function Projects() {
                           className={cn(
                             "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
                             "bg-primary hover:bg-primary/90 text-primary-foreground",
-                            "transition-all duration-300 hover:scale-105"
+                            "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
                           )}
                         >
                           <ExternalLink size={16} />
