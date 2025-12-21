@@ -26,13 +26,13 @@ const projects = [
     featured: false,
   },
   {
-    title: "Portfolio Builder – Automated Portfolio Generator",
-    description: "A developer-focused tool that generates modern, responsive portfolio websites from simple configuration inputs, allowing users to showcase projects quickly and professionally.",
+    title: "Portfolio Builder",
+    description: "I am a modern web-based portfolio builder whereby I offer responsiveness from simple configuration input hence making the portfolio to be highly noticed.",
     tech: ["React", "Node.js", "Tailwind CSS"],
     role: "Creator & Developer",
     outcome: "Enabled developers to launch professional portfolios faster, reducing setup time and improving online visibility.",
     github: "https://github.com/CertifiedC1",
-    live: "#",
+    live: "https://eliud-portfolio-gamma.vercel.app",
     featured: false,
   },
 ];
