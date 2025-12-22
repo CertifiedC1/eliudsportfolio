@@ -151,6 +151,7 @@ export default {
         "particle-float": "particle-float 2.5s ease-in-out infinite",
         "orbit-skill": "orbit-skill 3s linear forwards",
         "pop-in": "pop-in 0.5s ease-out forwards",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
