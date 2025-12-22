@@ -88,12 +88,12 @@ export default function Home() {
       <div className="absolute inset-0 bg-gradient-radial from-secondary/20 via-background to-background" />
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-8">
         {/* Mirror Portal Container */}
         <div
           className={cn(
             "relative cursor-pointer",
-            "w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[280px] md:h-[280px] lg:w-[320px] lg:h-[320px]",
+            "w-[140px] h-[140px] sm:w-[200px] sm:h-[200px] md:w-[260px] md:h-[260px] lg:w-[300px] lg:h-[300px]",
             "flex items-center justify-center",
             mirrorVisible ? "opacity-100 scale-100" : "opacity-0 scale-90",
             isZooming 
@@ -158,11 +158,11 @@ export default function Home() {
             {/* Click hint - JUMP IN! */}
             <div
               className={cn(
-                "absolute bottom-[-50px] left-1/2 -translate-x-1/2",
-                "px-6 py-2 rounded-full",
+                "absolute bottom-[-35px] sm:bottom-[-50px] left-1/2 -translate-x-1/2",
+                "px-3 sm:px-6 py-1 sm:py-2 rounded-full",
                 "bg-primary/20 backdrop-blur-sm border border-primary/30",
-                "text-primary text-sm md:text-base font-display tracking-widest uppercase",
-                "opacity-0 transition-all duration-300",
+                "text-primary text-xs sm:text-sm md:text-base font-display tracking-widest uppercase",
+                "opacity-0 transition-all duration-300 whitespace-nowrap",
                 isHovering && "opacity-100 translate-y-0",
                 !isHovering && "translate-y-2"
               )}
@@ -175,14 +175,14 @@ export default function Home() {
         {/* Text content */}
         <div
           className={cn(
-            "text-center mt-16 transition-all duration-1000",
+            "text-center mt-8 sm:mt-16 transition-all duration-1000 px-4",
             textVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           )}
         >
-          <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl tracking-wider text-glow text-primary mb-4">
+          <h1 className="font-display text-2xl sm:text-4xl md:text-6xl lg:text-7xl tracking-wider text-glow text-primary mb-2 sm:mb-4">
             <AnimatedText text="Eliud's Portfolio" delay={2600} letterDelay={0.08} />
           </h1>
-          <p className="font-body text-base sm:text-lg md:text-xl text-muted-foreground tracking-wide">
+          <p className="font-body text-sm sm:text-lg md:text-xl text-muted-foreground tracking-wide text-center">
             <AnimatedText
               text="Web Developer • Software Engineer • IT Specialist"
               delay={3500}
