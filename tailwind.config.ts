@@ -63,12 +63,12 @@ export default {
       keyframes: {
         "particle-float": {
           "0%, 100%": {
-            opacity: "0.4",
+            opacity: "0.5",
             transform: "translate(-50%, -50%) translateY(0px) scale(1)",
           },
           "50%": {
             opacity: "1",
-            transform: "translate(-50%, -50%) translateY(-10px) scale(1.2)",
+            transform: "translate(-50%, -50%) translateY(-15px) scale(1.3)",
           },
         },
         "accordion-down": {
@@ -97,15 +97,21 @@ export default {
         },
         "glow-pulse": {
           "0%, 100%": {
-            boxShadow: "0 0 30px hsl(35 100% 50% / 0.4), 0 0 60px hsl(35 100% 50% / 0.2)",
+            boxShadow: "0 0 40px hsl(35 100% 50% / 0.5), 0 0 80px hsl(35 100% 50% / 0.3), 0 0 120px hsl(35 100% 50% / 0.15)",
           },
           "50%": {
-            boxShadow: "0 0 50px hsl(35 100% 50% / 0.6), 0 0 100px hsl(35 100% 50% / 0.3)",
+            boxShadow: "0 0 60px hsl(35 100% 50% / 0.7), 0 0 120px hsl(35 100% 50% / 0.5), 0 0 180px hsl(35 100% 50% / 0.25)",
           },
         },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        "float-card": {
+          "0%, 100%": { transform: "translateY(0) rotate(0deg)" },
+          "25%": { transform: "translateY(-8px) rotate(1deg)" },
+          "50%": { transform: "translateY(-12px) rotate(0deg)" },
+          "75%": { transform: "translateY(-8px) rotate(-1deg)" },
         },
         "letter-reveal": {
           "0%": { opacity: "0", transform: "translateY(20px)" },
@@ -119,6 +125,10 @@ export default {
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.02)" },
         },
+        "orbit-skill": {
+          "0%": { transform: "rotate(0deg) translateX(100px) rotate(0deg)" },
+          "100%": { transform: "rotate(360deg) translateX(100px) rotate(-360deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -127,12 +137,14 @@ export default {
         "fade-out": "fade-out 0.8s ease-out forwards",
         "scale-in": "scale-in 0.6s ease-out forwards",
         "zoom-portal": "zoom-portal 0.8s ease-in forwards",
-        "glow-pulse": "glow-pulse 3s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2.5s ease-in-out infinite",
         "float": "float 6s ease-in-out infinite",
+        "float-card": "float-card 3s ease-in-out infinite",
         "letter-reveal": "letter-reveal 0.5s ease-out forwards",
         "spin-slow": "spin-slow 8s linear infinite",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
-        "particle-float": "particle-float 3s ease-in-out infinite",
+        "particle-float": "particle-float 2.5s ease-in-out infinite",
+        "orbit-skill": "orbit-skill 4s linear infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

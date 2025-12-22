@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/PageTransition";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -37,7 +38,151 @@ const projects = [
   },
 ];
 
+// Floating project card component
+const FloatingProjectCard = ({ 
+  project, 
+  index, 
+  isFloating,
+  onTouch
+}: { 
+  project: typeof projects[0]; 
+  index: number; 
+  isFloating: boolean;
+  onTouch: () => void;
+}) => {
+  const [hovered, setHovered] = useState(false);
+  
+  return (
+    <div
+      onClick={onTouch}
+      onTouchStart={onTouch}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={cn(
+        "glass rounded-2xl overflow-hidden group cursor-pointer",
+        "hover:border-primary/40 transition-all duration-500",
+        "hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/20",
+        project.featured && "md:col-span-2",
+        "animate-fade-in",
+        isFloating && "animate-float-card"
+      )}
+      style={{ 
+        animationDelay: `${0.2 + index * 0.1}s`,
+        ...(isFloating && {
+          animation: `float-card 3s ease-in-out infinite`,
+          animationDelay: `${index * 0.3}s`,
+        })
+      }}
+    >
+      <div className={cn("p-6 md:p-8", project.featured && "md:flex md:gap-8")}>
+        <div className={cn("flex-1", project.featured && "md:max-w-[60%]")}>
+          {/* Project Title - Interactive */}
+          <div className="flex items-start justify-between mb-4">
+            <h3 className={cn(
+              "font-display text-xl md:text-2xl text-foreground transition-all duration-300",
+              "group-hover:text-primary group-hover:text-glow",
+              hovered && "scale-105 origin-left"
+            )}>
+              {project.title}
+            </h3>
+            {project.featured && (
+              <span className="px-3 py-1 text-xs font-body uppercase tracking-wider bg-primary/20 text-primary rounded-full">
+                Featured
+              </span>
+            )}
+          </div>
+
+          {/* Description */}
+          <p className="font-body text-muted-foreground mb-6 leading-relaxed">
+            {project.description}
+          </p>
+
+          {/* Role & Outcome */}
+          <div className="space-y-2 mb-6">
+            <p className="font-body text-sm">
+              <span className="text-primary">Role:</span>{" "}
+              <span className="text-foreground/80">{project.role}</span>
+            </p>
+            <p className="font-body text-sm">
+              <span className="text-primary">Outcome:</span>{" "}
+              <span className="text-foreground/80">{project.outcome}</span>
+            </p>
+          </div>
+        </div>
+
+        <div className={cn("flex-1", project.featured && "md:flex md:flex-col md:justify-between")}>
+          {/* Tech Stack */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {project.tech.map((tech) => (
+              <span
+                key={tech}
+                className="px-3 py-1 text-xs font-body bg-secondary/80 text-foreground/80 rounded-lg border border-border/50 hover:bg-primary/20 hover:text-primary transition-colors"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-4">
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
+                "bg-secondary hover:bg-secondary/80 text-foreground/80 hover:text-foreground",
+                "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+              )}
+            >
+              <Github size={16} />
+              GitHub
+            </a>
+            {project.live !== "#" && (
+              <a
+                href={project.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
+                  "bg-primary hover:bg-primary/90 text-primary-foreground",
+                  "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+                )}
+              >
+                <ExternalLink size={16} />
+                Live Demo
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Projects() {
+  const [floatingCards, setFloatingCards] = useState<Set<number>>(new Set());
+
+  const handleCardTouch = (index: number) => {
+    setFloatingCards(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+        // Auto-stop floating after 5 seconds
+        setTimeout(() => {
+          setFloatingCards(current => {
+            const updated = new Set(current);
+            updated.delete(index);
+            return updated;
+          });
+        }, 5000);
+      }
+      return newSet;
+    });
+  };
+
   return (
     <PageTransition>
       <div className="relative min-h-screen overflow-hidden">
@@ -61,96 +206,13 @@ export default function Projects() {
             {/* Projects Grid */}
             <div className="grid gap-8 md:grid-cols-2">
               {projects.map((project, index) => (
-                <div
+                <FloatingProjectCard
                   key={project.title}
-                  className={cn(
-                    "glass rounded-2xl overflow-hidden group",
-                    "hover:border-primary/40 transition-all duration-500",
-                    "hover:scale-[1.02] hover:shadow-2xl hover:shadow-primary/10",
-                    project.featured && "md:col-span-2",
-                    "animate-fade-in"
-                  )}
-                  style={{ animationDelay: `${0.2 + index * 0.1}s` }}
-                >
-                  <div className={cn("p-6 md:p-8", project.featured && "md:flex md:gap-8")}>
-                    <div className={cn("flex-1", project.featured && "md:max-w-[60%]")}>
-                      {/* Project Title */}
-                      <div className="flex items-start justify-between mb-4">
-                        <h3 className="font-display text-xl md:text-2xl text-foreground group-hover:text-primary transition-colors">
-                          {project.title}
-                        </h3>
-                        {project.featured && (
-                          <span className="px-3 py-1 text-xs font-body uppercase tracking-wider bg-primary/20 text-primary rounded-full">
-                            Featured
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Description */}
-                      <p className="font-body text-muted-foreground mb-6 leading-relaxed">
-                        {project.description}
-                      </p>
-
-                      {/* Role & Outcome */}
-                      <div className="space-y-2 mb-6">
-                        <p className="font-body text-sm">
-                          <span className="text-primary">Role:</span>{" "}
-                          <span className="text-foreground/80">{project.role}</span>
-                        </p>
-                        <p className="font-body text-sm">
-                          <span className="text-primary">Outcome:</span>{" "}
-                          <span className="text-foreground/80">{project.outcome}</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className={cn("flex-1", project.featured && "md:flex md:flex-col md:justify-between")}>
-                      {/* Tech Stack */}
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {project.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 text-xs font-body bg-secondary/80 text-foreground/80 rounded-lg border border-border/50 hover:bg-primary/20 hover:text-primary transition-colors"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Buttons */}
-                      <div className="flex gap-4">
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={cn(
-                            "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
-                            "bg-secondary hover:bg-secondary/80 text-foreground/80 hover:text-foreground",
-                            "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
-                          )}
-                        >
-                          <Github size={16} />
-                          GitHub
-                        </a>
-                        {project.live !== "#" && (
-                          <a
-                            href={project.live}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={cn(
-                              "flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm",
-                              "bg-primary hover:bg-primary/90 text-primary-foreground",
-                              "transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
-                            )}
-                          >
-                            <ExternalLink size={16} />
-                            Live Demo
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  project={project}
+                  index={index}
+                  isFloating={floatingCards.has(index)}
+                  onTouch={() => handleCardTouch(index)}
+                />
               ))}
             </div>
           </div>
