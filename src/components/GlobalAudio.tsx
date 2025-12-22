@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
-import ambientAudio from "/audio/ambient.mp3";
 
 export function GlobalAudio() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -29,7 +28,7 @@ export function GlobalAudio() {
     <>
       <audio
         ref={audioRef}
-        src={ambientAudio}
+        src="/audio/ambient.mp3"
         loop
         preload="auto"
       />
