@@ -1,34 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ambientAudio from "/audio/ambient.mp3";
 
 export function GlobalAudio() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
-
-  useEffect(() => {
-    const handleFirstInteraction = () => {
-      if (!hasInteracted && audioRef.current) {
-        audioRef.current.volume = 0.3; // Set a comfortable volume
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-          setHasInteracted(true);
-        }).catch(() => {
-          // Autoplay blocked, user needs to click
-        });
-      }
-    };
-
-    // Try to play on first user interaction
-    document.addEventListener("click", handleFirstInteraction, { once: true });
-    document.addEventListener("touchstart", handleFirstInteraction, { once: true });
-    
-    return () => {
-      document.removeEventListener("click", handleFirstInteraction);
-      document.removeEventListener("touchstart", handleFirstInteraction);
-    };
-  }, [hasInteracted]);
 
   const toggleAudio = () => {
     if (audioRef.current) {
@@ -37,10 +14,13 @@ export function GlobalAudio() {
         setIsPlaying(false);
       } else {
         audioRef.current.volume = 0.3;
-        audioRef.current.play().then(() => {
-          setIsPlaying(true);
-          setHasInteracted(true);
-        });
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((err) => {
+            console.log("Audio play error:", err);
+          });
       }
     }
   };
@@ -49,9 +29,9 @@ export function GlobalAudio() {
     <>
       <audio
         ref={audioRef}
-        src="/audio/ambient.mp3"
+        src={ambientAudio}
         loop
-        className="hidden"
+        preload="auto"
       />
       <button
         onClick={toggleAudio}
