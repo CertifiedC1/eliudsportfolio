@@ -3,17 +3,17 @@ import { Volume2, VolumeX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function GlobalAudio() {
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const toggleAudio = () => {
-    if (audioRef.current) {
+    if (videoRef.current) {
       if (isPlaying) {
-        audioRef.current.pause();
+        videoRef.current.pause();
         setIsPlaying(false);
       } else {
-        audioRef.current.volume = 0.3;
-        audioRef.current.play()
+        videoRef.current.volume = 0.4;
+        videoRef.current.play()
           .then(() => {
             setIsPlaying(true);
           })
@@ -26,11 +26,14 @@ export function GlobalAudio() {
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        src="/audio/ambient.mp3"
+      {/* Hidden video element for audio playback */}
+      <video
+        ref={videoRef}
+        src="/videos/about-bg.mp4"
         loop
+        playsInline
         preload="auto"
+        className="hidden"
       />
       <button
         onClick={toggleAudio}
