@@ -67,66 +67,43 @@ const InteractiveWord = ({ children, className }: { children: React.ReactNode; c
   );
 };
 
-// Orbiting skill component with return animation
+// Orbiting skill component
 const OrbitingSkill = ({ 
   skill, 
   index, 
   total, 
-  phase,
+  isOrbiting, 
   centerX, 
   centerY,
-  radius,
-  returnDelay
+  radius 
 }: { 
   skill: Skill; 
   index: number; 
   total: number; 
-  phase: 'idle' | 'orbiting' | 'returning';
+  isOrbiting: boolean;
   centerX: number;
   centerY: number;
   radius: number;
-  returnDelay: number;
 }) => {
   const angle = (index / total) * 360;
   const Icon = skill.icon;
   
-  // Calculate position based on phase
-  const getStyles = () => {
-    if (phase === 'orbiting') {
-      return {
-        left: centerX,
-        top: centerY,
-        transform: `translate(-50%, -50%) rotate(${angle}deg) translateX(${radius}px) rotate(-${angle}deg)`,
-        opacity: 1,
-        transition: 'none',
-        animation: `orbit-skill 3s linear forwards`,
-        animationDelay: `${index * 0.05}s`,
-      };
-    }
-    if (phase === 'returning') {
-      return {
-        left: 'auto',
-        top: 'auto',
-        transform: 'scale(1)',
-        opacity: 1,
-        transition: `all 0.5s ease-out ${returnDelay}s`,
-      };
-    }
-    return {};
-  };
-  
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-2 p-3 rounded-xl",
+        "absolute flex flex-col items-center gap-2 p-3 rounded-xl",
         "bg-card/80 backdrop-blur-sm border border-primary/30",
-        "z-10",
-        phase === 'orbiting' && "absolute",
-        phase === 'returning' && "animate-pop-in"
+        "transition-all duration-700 ease-out z-10",
+        isOrbiting && "animate-orbit-skill"
       )}
       style={{
-        ...getStyles(),
-        animationDelay: phase === 'returning' ? `${returnDelay}s` : undefined,
+        left: isOrbiting ? centerX : 'auto',
+        top: isOrbiting ? centerY : 'auto',
+        transform: isOrbiting 
+          ? `translate(-50%, -50%) rotate(${angle}deg) translateX(${radius}px) rotate(-${angle}deg)` 
+          : 'none',
+        position: isOrbiting ? 'absolute' : 'relative',
+        animationDelay: `${index * 0.1}s`,
       }}
     >
       <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
@@ -145,22 +122,17 @@ const SkillsOrbit = ({
   title: string;
   gridCols: string;
 }) => {
-  const [phase, setPhase] = useState<'idle' | 'orbiting' | 'returning'>('idle');
+  const [isOrbiting, setIsOrbiting] = useState(false);
+  const [touchedIndex, setTouchedIndex] = useState<number | null>(null);
 
-  const handleSkillTouch = () => {
-    if (phase !== 'idle') return;
-    
-    setPhase('orbiting');
-    
-    // After orbit completes (3s), start returning
+  const handleSkillTouch = (index: number) => {
+    setTouchedIndex(index);
+    setIsOrbiting(true);
+    // Stop orbiting after animation
     setTimeout(() => {
-      setPhase('returning');
-    }, 3000);
-    
-    // After returning animation, go back to idle
-    setTimeout(() => {
-      setPhase('idle');
-    }, 3000 + (skills.length * 150) + 500);
+      setIsOrbiting(false);
+      setTouchedIndex(null);
+    }, 4000);
   };
 
   return (
@@ -169,35 +141,28 @@ const SkillsOrbit = ({
         <AnimatedText text={title} delay={title === "Technical Skills" ? 600 : 900} letterDelay={0.08} />
       </h2>
       
-      <div className={cn("relative", phase === 'orbiting' && "min-h-[300px] sm:min-h-[400px]")}>
+      <div className={cn("relative", isOrbiting && "min-h-[300px] sm:min-h-[400px]")}>
         {/* Orbit center indicator */}
-        {phase === 'orbiting' && (
+        {isOrbiting && (
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary/50 animate-pulse" />
         )}
         
-        {/* Normal grid view */}
         <div className={cn(
           "grid gap-4 transition-all duration-500",
           gridCols,
-          phase === 'orbiting' && "opacity-0 pointer-events-none"
+          isOrbiting && "opacity-0 pointer-events-none"
         )}>
           {skills.map((skill, index) => (
             <div
               key={skill.name}
-              onClick={handleSkillTouch}
-              onTouchStart={handleSkillTouch}
+              onClick={() => handleSkillTouch(index)}
+              onTouchStart={() => handleSkillTouch(index)}
               className={cn(
                 "glass rounded-xl p-4 sm:p-6 flex flex-col items-center gap-3 sm:gap-4 cursor-pointer",
                 "hover:bg-primary/10 hover:border-primary/30 transition-all duration-300",
                 "hover:scale-105 hover:-translate-y-1 group",
-                "active:scale-95",
-                phase === 'returning' && "animate-pop-in"
+                "active:scale-95"
               )}
-              style={{
-                animationDelay: phase === 'returning' ? `${index * 0.15}s` : undefined,
-                opacity: phase === 'returning' ? 0 : undefined,
-                animationFillMode: 'forwards',
-              }}
             >
               <skill.icon className="w-8 h-8 sm:w-10 sm:h-10 text-primary group-hover:scale-110 transition-transform" />
               <span className="font-body text-xs sm:text-sm md:text-base text-center text-foreground/80 group-hover:text-foreground">
@@ -208,7 +173,7 @@ const SkillsOrbit = ({
         </div>
         
         {/* Orbiting skills overlay */}
-        {phase === 'orbiting' && (
+        {isOrbiting && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="relative w-full h-full">
               {skills.map((skill, index) => (
@@ -217,11 +182,10 @@ const SkillsOrbit = ({
                   skill={skill}
                   index={index}
                   total={skills.length}
-                  phase={phase}
+                  isOrbiting={isOrbiting}
                   centerX={typeof window !== 'undefined' ? window.innerWidth / 2 : 200}
                   centerY={150}
                   radius={skills.length > 6 ? 120 : 100}
-                  returnDelay={index * 0.15}
                 />
               ))}
             </div>
