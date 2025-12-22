@@ -17,7 +17,7 @@ const MirrorParticle = ({ delay, duration, size, angle, distance }: {
   
   return (
     <div
-      className="absolute rounded-full bg-primary/60 animate-particle-float"
+      className="absolute rounded-full bg-primary/80 animate-particle-float"
       style={{
         width: size,
         height: size,
@@ -26,7 +26,7 @@ const MirrorParticle = ({ delay, duration, size, angle, distance }: {
         transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
         animationDelay: `${delay}s`,
         animationDuration: `${duration}s`,
-        boxShadow: '0 0 6px hsl(var(--primary) / 0.8)',
+        boxShadow: '0 0 10px hsl(var(--primary) / 0.9), 0 0 20px hsl(var(--primary) / 0.6)',
       }}
     />
   );
@@ -43,13 +43,13 @@ export default function Home() {
 
   // Generate particles with stable random values
   const particles = useMemo(() => 
-    Array.from({ length: 12 }, (_, i) => ({
+    Array.from({ length: 16 }, (_, i) => ({
       id: i,
       delay: Math.random() * 2,
       duration: 3 + Math.random() * 2,
-      size: 3 + Math.random() * 4,
-      angle: (i * 30) + Math.random() * 15,
-      distance: 80 + Math.random() * 40,
+      size: 4 + Math.random() * 5,
+      angle: (i * 22.5) + Math.random() * 10,
+      distance: 70 + Math.random() * 50,
     })), []
   );
 
@@ -104,8 +104,10 @@ export default function Home() {
           onClick={handleMirrorClick}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
+          onTouchStart={() => setIsHovering(true)}
+          onTouchEnd={() => setIsHovering(false)}
         >
-          {/* Floating particles around mirror */}
+          {/* Enhanced floating particles around mirror */}
           <div className={cn(
             "absolute inset-0 transition-opacity duration-500",
             introComplete ? "opacity-100" : "opacity-0"
@@ -114,17 +116,37 @@ export default function Home() {
               <MirrorParticle key={particle.id} {...particle} />
             ))}
           </div>
-          {/* Mirror glow effect - contained within parent */}
+
+          {/* Outer glow ring - always visible, stronger */}
           <div
             className={cn(
-              "absolute inset-[10%] rounded-full blur-2xl transition-all duration-500",
-              "bg-gradient-radial from-primary/40 via-primary/20 to-transparent",
-              introComplete && "animate-glow-pulse",
-              isHovering && "from-primary/60 via-primary/30"
+              "absolute -inset-4 sm:-inset-6 md:-inset-8 rounded-full blur-2xl transition-all duration-500",
+              "bg-gradient-radial from-primary/50 via-primary/30 to-transparent",
+              "animate-glow-pulse"
             )}
           />
 
-          {/* Mirror image - contained */}
+          {/* Middle glow ring */}
+          <div
+            className={cn(
+              "absolute -inset-2 sm:-inset-3 md:-inset-4 rounded-full blur-xl transition-all duration-500",
+              "bg-gradient-radial from-primary/60 via-primary/40 to-transparent",
+              introComplete && "animate-glow-pulse",
+              isHovering && "from-primary/80 via-primary/50"
+            )}
+            style={{ animationDelay: "0.5s" }}
+          />
+
+          {/* Inner glow effect */}
+          <div
+            className={cn(
+              "absolute inset-[5%] rounded-full blur-lg transition-all duration-500",
+              "bg-gradient-radial from-primary/50 via-primary/25 to-transparent",
+              isHovering && "from-primary/70 via-primary/40"
+            )}
+          />
+
+          {/* Mirror image */}
           <div className="relative w-full h-full flex items-center justify-center">
             <img
               src={mirrorPortal}
@@ -139,9 +161,9 @@ export default function Home() {
             {/* Rotating ring effect on hover */}
             <div
               className={cn(
-                "absolute inset-[5%] rounded-full border-2 border-primary/30",
+                "absolute inset-[5%] rounded-full border-2 border-primary/40",
                 "transition-all duration-700",
-                isHovering && "animate-spin-slow border-primary/60"
+                isHovering && "animate-spin-slow border-primary/70"
               )}
             />
             
@@ -149,9 +171,9 @@ export default function Home() {
             <div
               className={cn(
                 "absolute inset-[15%] rounded-full",
-                "bg-gradient-radial from-transparent via-primary/10 to-transparent",
+                "bg-gradient-radial from-transparent via-primary/15 to-transparent",
                 "transition-all duration-500",
-                isHovering && "via-primary/20"
+                isHovering && "via-primary/30"
               )}
             />
 
@@ -163,6 +185,7 @@ export default function Home() {
                 "bg-primary/20 backdrop-blur-sm border border-primary/30",
                 "text-primary text-xs sm:text-sm md:text-base font-display tracking-widest uppercase",
                 "opacity-0 transition-all duration-300 whitespace-nowrap",
+                "glow-primary",
                 isHovering && "opacity-100 translate-y-0",
                 !isHovering && "translate-y-2"
               )}
@@ -191,7 +214,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Scroll indicator - removed Explore text */}
+        {/* Scroll indicator */}
         <div
           className={cn(
             "absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2",
