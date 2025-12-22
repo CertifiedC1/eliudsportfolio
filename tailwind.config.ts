@@ -129,6 +129,11 @@ export default {
           "0%": { transform: "rotate(0deg) translateX(100px) rotate(0deg)" },
           "100%": { transform: "rotate(360deg) translateX(100px) rotate(-360deg)" },
         },
+        "pop-in": {
+          "0%": { opacity: "0", transform: "scale(0.3) translateY(20px)" },
+          "60%": { opacity: "1", transform: "scale(1.1) translateY(-5px)" },
+          "100%": { opacity: "1", transform: "scale(1) translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -144,8 +149,8 @@ export default {
         "spin-slow": "spin-slow 8s linear infinite",
         "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
         "particle-float": "particle-float 2.5s ease-in-out infinite",
-        "orbit-skill": "orbit-skill 4s linear infinite",
-      },
+        "orbit-skill": "orbit-skill 3s linear forwards",
+        "pop-in": "pop-in 0.5s ease-out forwards",
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
