@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/PageTransition";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -184,9 +185,14 @@ export default function Projects() {
   };
 
   return (
-    <PageTransition>
-      <div className="relative min-h-screen overflow-hidden">
-        {/* Video background */}
+    <>
+      <Helmet>
+        <title>Projects | Eliud's Portfolio</title>
+        <meta name="description" content="Explore Eliud's portfolio of web development projects including ticketing platforms, payment systems, and more." />
+      </Helmet>
+      <PageTransition>
+        <div className="relative min-h-screen overflow-hidden">
+          {/* Video background */}
         <VideoBackground src="/videos/projects-bg.mp4" />
 
         {/* Content */}
@@ -214,10 +220,11 @@ export default function Projects() {
                   onTouch={() => handleCardTouch(index)}
                 />
               ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </PageTransition>
+      </PageTransition>
+    </>
   );
 }

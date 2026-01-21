@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/PageTransition";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -48,9 +49,14 @@ export default function Contact() {
   };
 
   return (
-    <PageTransition>
-      <div className="relative min-h-screen overflow-hidden">
-        {/* Video background */}
+    <>
+      <Helmet>
+        <title>Contact | Eliud's Portfolio</title>
+        <meta name="description" content="Get in touch with Eliud for freelance projects, collaborations, or full-time opportunities. Let's build something amazing together." />
+      </Helmet>
+      <PageTransition>
+        <div className="relative min-h-screen overflow-hidden">
+          {/* Video background */}
         <VideoBackground src="/videos/contact-bg.mp4" />
 
         {/* Content */}
@@ -324,9 +330,10 @@ export default function Contact() {
                 </form>
               </div>
             </div>
+            </div>
           </div>
         </div>
-      </div>
-    </PageTransition>
+      </PageTransition>
+    </>
   );
 }

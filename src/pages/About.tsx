@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/PageTransition";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -198,8 +199,13 @@ const SkillsOrbit = ({
 
 export default function About() {
   return (
-    <PageTransition>
-      <div className="relative min-h-screen overflow-hidden">
+    <>
+      <Helmet>
+        <title>About Me | Eliud's Portfolio</title>
+        <meta name="description" content="Learn about Eliud - A passionate Web Developer, Software Engineer & IT Specialist with expertise in React, Supabase, and modern web technologies." />
+      </Helmet>
+      <PageTransition>
+        <div className="relative min-h-screen overflow-hidden">
         {/* Video background */}
         <VideoBackground src="/videos/about-bg.mp4" />
 
@@ -262,9 +268,10 @@ export default function About() {
                 gridCols="grid-cols-2 md:grid-cols-4"
               />
             </div>
+            </div>
           </div>
         </div>
-      </div>
-    </PageTransition>
+      </PageTransition>
+    </>
   );
 }
