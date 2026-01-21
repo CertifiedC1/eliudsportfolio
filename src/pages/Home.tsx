@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { cn } from "@/lib/utils";
 import { AnimatedText } from "@/components/AnimatedText";
 import mirrorPortal from "@/assets/mirror-portal.png";
@@ -75,7 +76,12 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background grain">
+    <>
+      <Helmet>
+        <title>Eliud's Portfolio | Home</title>
+        <meta name="description" content="Welcome to Eliud's Portfolio - Web Developer, Software Engineer & IT Specialist" />
+      </Helmet>
+      <div className="relative min-h-screen overflow-hidden bg-background grain">
       {/* Fade overlay for smooth transition */}
       <div
         className={cn(
@@ -226,5 +232,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </>
   );
 }
