@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { PageTransition } from "@/components/PageTransition";
 import { AnimatedText } from "@/components/AnimatedText";
 import { VideoBackground } from "@/components/VideoBackground";
-import { MapPin, Mail, Send, Github, Linkedin, ArrowRight, Phone, Copy, Check } from "lucide-react";
+import { MapPin, Mail, Send, Github, Linkedin, ArrowRight, Phone, Copy, Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Contact() {
@@ -14,6 +14,7 @@ export default function Contact() {
     message: "",
   });
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const contactInfo = {
     email: "ndungueliud2021@gmail.com",
@@ -23,11 +24,49 @@ export default function Contact() {
     linkedin: "https://www.linkedin.com/in/eliud-ndungu-3075a0339/",
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message ready!", {
-      description: "Copy my email above to send your message directly.",
-    });
+    
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://www.fixafrica.co.ke/carenthusiast/api/email/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subject: `Portfolio Contact: Message from ${formData.name}`,
+          content: `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
+          recipient: "ndungueliud2021@gmail.com",
+          from_name: formData.name,
+          reply_to: formData.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success("Message sent successfully!", {
+          description: "Thank you for reaching out. I'll get back to you soon!",
+        });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        throw new Error(data.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Email sending error:", error);
+      toast.error("Failed to send message", {
+        description: "Please try again or contact me directly via email.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -312,20 +351,30 @@ export default function Contact() {
                   {/* Submit Button */}
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className={cn(
                       "w-full flex items-center justify-center gap-3 px-6 py-3 sm:py-4 rounded-xl",
                       "bg-primary hover:bg-primary/90 text-primary-foreground",
                       "font-body font-medium tracking-wide text-sm sm:text-base",
                       "transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/20",
-                      "group"
+                      "group disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
                     )}
                   >
-                    <span>Send Message</span>
-                    <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                      </>
+                    )}
                   </button>
 
                   <p className="text-center text-xs text-muted-foreground font-body mt-4">
-                    Click send, then copy my email above to reach me directly!
+                    Your message will be sent directly to my inbox!
                   </p>
                 </form>
               </div>
