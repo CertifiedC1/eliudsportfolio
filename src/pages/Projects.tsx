@@ -47,6 +47,16 @@ const projects = [
     live: "https://kimurischool.vercel.app/",
     featured: false,
   },
+  {
+    title: "ProDrive Suspension",
+    description: "A professional automotive suspension solutions website showcasing high-performance suspension systems and services for various vehicle types.",
+    tech: ["React", "Tailwind CSS", "Modern UI/UX"],
+    role: "Full-stack Developer",
+    outcome: "Delivered a sleek, professional web presence that effectively showcases automotive suspension products and services.",
+    github: "https://github.com/CertifiedC1",
+    live: "https://prodrive-suspension.vercel.app/",
+    featured: false,
+  },
 ];
 
 // Floating project card component

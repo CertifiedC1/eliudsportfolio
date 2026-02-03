@@ -19,6 +19,8 @@ import {
   Lightbulb,
   Award,
   LucideIcon,
+  FileText,
+  ExternalLink,
 } from "lucide-react";
 
 interface Skill {
@@ -48,6 +50,46 @@ const softSkills: Skill[] = [
   { name: "Communication", icon: MessageSquare },
   { name: "Time Management", icon: Clock },
   { name: "Team Collaboration", icon: Users },
+];
+
+interface Certificate {
+  name: string;
+  issuer: string;
+  date: string;
+  pdfUrl: string;
+}
+
+const certificates: Certificate[] = [
+  {
+    name: "Introduction to Modern AI",
+    issuer: "Cisco Networking Academy",
+    date: "21 Jan 2026",
+    pdfUrl: "/certificates/modern-ai.pdf",
+  },
+  {
+    name: "Introduction to Cybersecurity",
+    issuer: "Cisco Networking Academy",
+    date: "24 Nov 2024",
+    pdfUrl: "/certificates/cybersecurity.pdf",
+  },
+  {
+    name: "Networking Devices and Initial Configuration",
+    issuer: "Cisco Networking Academy",
+    date: "10 Sep 2024",
+    pdfUrl: "/certificates/networking-devices-config.pdf",
+  },
+  {
+    name: "Networking Basics",
+    issuer: "Cisco Networking Academy",
+    date: "04 Sep 2024",
+    pdfUrl: "/certificates/networking-basics.pdf",
+  },
+  {
+    name: "Introduction to MS Excel",
+    issuer: "Simplilearn SkillUp",
+    date: "5th July 2025",
+    pdfUrl: "/certificates/ms-excel.pdf",
+  },
 ];
 
 // Interactive word component
@@ -251,8 +293,43 @@ export default function About() {
               </div>
             </div>
 
+            {/* Certificates Section */}
+            <div className="mb-12 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+              <h2 className="font-display text-2xl md:text-3xl text-amber-400 text-glow mb-8 text-center">
+                <AnimatedText text="Certifications" delay={500} letterDelay={0.08} />
+              </h2>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {certificates.map((cert, index) => (
+                  <a
+                    key={cert.name}
+                    href={cert.pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "glass rounded-xl p-5 flex flex-col gap-3 cursor-pointer group",
+                      "hover:bg-primary/10 hover:border-primary/30 transition-all duration-300",
+                      "hover:scale-[1.02] hover:-translate-y-1"
+                    )}
+                    style={{ animationDelay: `${0.3 + index * 0.1}s` }}
+                  >
+                    <div className="flex items-start justify-between">
+                      <FileText className="w-8 h-8 text-primary group-hover:scale-110 transition-transform" />
+                      <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-base text-foreground group-hover:text-primary transition-colors">
+                        {cert.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground font-body">{cert.issuer}</p>
+                      <p className="text-xs text-muted-foreground/70 font-body mt-1">{cert.date}</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+
             {/* Technical Skills */}
-            <div className="mb-12 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+            <div className="mb-12 animate-fade-in" style={{ animationDelay: "0.5s" }}>
               <SkillsOrbit 
                 skills={technicalSkills} 
                 title="Technical Skills" 
@@ -261,7 +338,7 @@ export default function About() {
             </div>
 
             {/* Soft Skills */}
-            <div className="animate-fade-in" style={{ animationDelay: "0.6s" }}>
+            <div className="animate-fade-in" style={{ animationDelay: "0.7s" }}>
               <SkillsOrbit 
                 skills={softSkills} 
                 title="Soft Skills" 
