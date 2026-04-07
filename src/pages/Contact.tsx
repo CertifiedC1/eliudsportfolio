@@ -35,18 +35,19 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://www.fixafrica.co.ke/carenthusiast/api/email/email", {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      
+      const response = await fetch(`${supabaseUrl}/functions/v1/send-contact-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${supabaseKey}`,
         },
         body: JSON.stringify({
-          subject: `Portfolio Contact: Message from ${formData.name}`,
-          content: `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
-          recipient: "ndungueliud202@gmail.com",
-          from_name: "Eliud's Project Contact",
-          reply_to: formData.email,
-          reply_name: formData.name,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
         }),
       });
 
