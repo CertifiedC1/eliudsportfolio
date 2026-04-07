@@ -17,7 +17,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const contactInfo = {
-    email: "ndungueliud2021@gmail.com",
+    email: "ndungueliud202@gmail.com",
     phone1: "0111653881",
     phone2: "0734007511",
     github: "https://github.com/CertifiedC1",
@@ -43,9 +43,10 @@ export default function Contact() {
         body: JSON.stringify({
           subject: `Portfolio Contact: Message from ${formData.name}`,
           content: `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
-          recipient: "ndungueliud2021@gmail.com",
-          from_name: formData.name,
+          recipient: "ndungueliud202@gmail.com",
+          from_name: "Eliud's Project Contact",
           reply_to: formData.email,
+          reply_name: formData.name,
         }),
       });
 
@@ -99,8 +100,8 @@ export default function Contact() {
         <VideoBackground src="/videos/contact-bg.mp4" />
 
         {/* Content */}
-        <div className="relative z-10 pt-24 pb-16 px-4">
-          <div className="container mx-auto max-w-5xl">
+        <div className="relative z-10 pt-24 pb-16 px-2 sm:px-4">
+          <div className="container mx-auto max-w-5xl px-2 sm:px-0">
             {/* Header with animated text */}
             <div className="text-center mb-12 sm:mb-16 animate-fade-in">
               <h1 className="font-display text-3xl sm:text-4xl md:text-6xl text-primary text-glow mb-4">
