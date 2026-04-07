@@ -17,7 +17,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const contactInfo = {
-    email: "ndungueliud202@gmail.com",
+    email: "ndungueliud2020@gmail.com",
     phone1: "0111653881",
     phone2: "0734007511",
     github: "https://github.com/CertifiedC1",
