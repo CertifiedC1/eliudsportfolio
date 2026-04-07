@@ -27,7 +27,7 @@ serve(async (req) => {
       body: JSON.stringify({
         subject: `Portfolio Contact: Message from ${name}`,
         content: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-        recipient: "ndungueliud202@gmail.com",
+        recipient: "ndungueliud2020@gmail.com",
         from_name: "Eliud's Project Contact",
         reply_to: email,
         reply_name: name,
