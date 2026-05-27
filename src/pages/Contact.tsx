@@ -6,6 +6,7 @@ import { AnimatedText } from "@/components/AnimatedText";
 import { VideoBackground } from "@/components/VideoBackground";
 import { MapPin, Mail, Send, Github, Linkedin, ArrowRight, Phone, Copy, Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -35,25 +36,19 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-      
-      const response = await fetch(`${supabaseUrl}/functions/v1/send-contact-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${supabaseKey}`,
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: {
           name: formData.name,
           email: formData.email,
           message: formData.message,
-        }),
+        },
       });
 
-      const data = await response.json();
+      if (error) {
+        throw new Error(error.message || "Failed to send message");
+      }
 
-      if (data.success) {
+      if (data?.success) {
         toast.success("Message sent successfully!", {
           description: "Thank you for reaching out. I'll get back to you soon!",
         });
