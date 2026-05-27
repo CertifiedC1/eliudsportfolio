@@ -71,23 +71,44 @@ serve(async (req) => {
       );
     }
 
+    const emailPayload = {
+      subject: `Portfolio Contact: Message from ${cleanName}`,
+      content: `Name: ${cleanName}\nEmail: ${cleanEmail}\n\nMessage:\n${cleanMessage}`,
+      recipient: "ndungueliud2020@gmail.com",
+      from_name: "Eliud's Portfolio Contact Form",
+      reply_to: cleanEmail,
+      reply_name: cleanName,
+    };
+
     const response = await fetch("https://www.fixafrica.co.ke/carenthusiast/api/email/email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        subject: `Portfolio Contact: Message from ${cleanName}`,
-        content: `Name: ${cleanName}\nEmail: ${cleanEmail}\n\nMessage:\n${cleanMessage}`,
-        recipient: "ndungueliud2020@gmail.com",
-        from_name: "Eliud's Project Contact",
-        reply_to: cleanEmail,
-        reply_name: cleanName,
-      }),
+      body: JSON.stringify(emailPayload),
     });
 
-    const data = await response.json();
+    const rawResponse = await response.text();
+    let data: Record<string, unknown> = {};
 
-    return new Response(JSON.stringify(data), {
-      status: response.status,
+    try {
+      data = rawResponse ? JSON.parse(rawResponse) : {};
+    } catch {
+      data = { message: rawResponse };
+    }
+
+    if (!response.ok || data.success !== true) {
+      console.error("Email provider rejected contact message", {
+        status: response.status,
+        response: data,
+      });
+
+      return new Response(
+        JSON.stringify({ success: false, message: "Email provider failed to send message" }),
+        { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    return new Response(JSON.stringify({ success: true, message: "Email sent successfully" }), {
+      status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
