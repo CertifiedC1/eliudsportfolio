@@ -24,7 +24,7 @@ const projects = [
     role: "Full-stack Developer",
     outcome: "Created a compelling digital presence that highlights the organization's impact, facilitates donor engagement, and connects beneficiaries with support resources.",
     github: "https://github.com/CertifiedC1",
-    live: "https://edumed-connect.vercel.app/",
+    live: "https://edumedtrust.org",
     featured: false,
   },
   {
