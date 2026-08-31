@@ -48,7 +48,7 @@ const projects = [
     featured: false,
   },
   {
-    title: "EntryHive 🐝 – Digital Ticketing Platform",
+    title: "EntryHive – Digital Ticketing Platform",
     description: "A modern web-based ticketing platform that enables event organizers to sell tickets, validate entry using secure QR codes, and manage events through a centralized dashboard.",
     tech: ["React", "Supabase", "QR Code Validation", "Tailwind CSS"],
     role: "Full-stack Developer",
@@ -64,7 +64,7 @@ const projects = [
     role: "Full-stack Developer",
     outcome: "Streamlined student access to university information, reducing response times and improving the overall student experience.",
     github: "https://github.com/CertifiedC1",
-    live: "https://aiu-bot.vercel.app/",
+    live: "https://certifiedbot.vercel.app/",
     featured: false,
   },
   {
